@@ -47,11 +47,16 @@ jobs:
         with:
           name: python-app
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
+      - name: Login to Azure
+        uses: azure/login@v2
         with:
-          app-name: 'your-app-name'
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_159AA080D97A472C9A7F97C2E0DFCCDF }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8E1455564A64421A848FEBEEC647B0A0 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_1A9BBC5298844205AD03F03CAB35DC37 }}
+
+      - name: 'Deploy to Azure Web App'
+        uses: azure/webapps-deploy@v3
+        id: deploy-to-webapp
+        with:
+          app-name: 'ocrtopdf'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
-          package: .
